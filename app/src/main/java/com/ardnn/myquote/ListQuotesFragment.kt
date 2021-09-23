@@ -1,44 +1,55 @@
 package com.ardnn.myquote
 
+import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.ardnn.myquote.databinding.FragmentListQuotesBinding
+import com.loopj.android.http.AsyncHttpClient
+import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONArray
 import java.lang.Exception
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.ardnn.myquote.databinding.ActivityListQuotesBinding
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpResponseHandler
 
-class ListQuotesActivity : AppCompatActivity() {
+
+class ListQuotesFragment : Fragment() {
 
     companion object {
-        private val TAG = ListQuotesActivity::class.java.simpleName
+        private val TAG = ListQuotesFragment::class.java.simpleName
     }
 
-    private lateinit var binding: ActivityListQuotesBinding
+    private var _binding: FragmentListQuotesBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityListQuotesBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // set action bar title
-        supportActionBar?.title = "List of Quotes"
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentListQuotesBinding.inflate(inflater, container, false)
 
         // setup recyclerview
-        val layoutManager = LinearLayoutManager(this)
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        val layoutManager = LinearLayoutManager(activity)
+        val itemDecoration = DividerItemDecoration(activity, layoutManager.orientation)
         with (binding) {
             rvQuotes.layoutManager = layoutManager
             rvQuotes.addItemDecoration(itemDecoration)
         }
 
+        // load list of quotes
         getListQuotes()
+
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun getListQuotes() {
@@ -80,10 +91,9 @@ class ListQuotesActivity : AppCompatActivity() {
                     binding.rvQuotes.adapter = adapter
 
                 } catch (e: Exception) {
-                    Toast.makeText(this@ListQuotesActivity, e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
                     e.printStackTrace()
                 }
-
 
             }
 
@@ -103,9 +113,9 @@ class ListQuotesActivity : AppCompatActivity() {
                     404 -> "$statusCode : Not Found"
                     else -> "$statusCode : ${error.message}"
                 }
-                Toast.makeText(this@ListQuotesActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
     }
-
 }
+
