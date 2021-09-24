@@ -39,6 +39,9 @@ class HomeFragment : Fragment() {
                 R.id.action_homeFragment_to_listQuotesFragment
             )
         }
+        binding.btnRefresh.setOnClickListener {
+            getRandomQuote()
+        }
 
         return binding.root
     }
@@ -49,8 +52,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun getRandomQuote() {
-        // show progress bar
-        binding.progressBar.visibility = View.VISIBLE
+        // show progress bar and hide quote
+        with (binding) {
+            progressBar.visibility = View.VISIBLE
+            llQuote.visibility = View.INVISIBLE
+        }
 
         // create client and fetch data from given url API
         val client = AsyncHttpClient()
@@ -62,8 +68,11 @@ class HomeFragment : Fragment() {
                 headers: Array<out Header>,
                 responseBody: ByteArray
             ) {
-                // hide progress bar
-                binding.progressBar.visibility = View.INVISIBLE
+                // hide progress bar and show quote
+                with (binding) {
+                    progressBar.visibility = View.INVISIBLE
+                    llQuote.visibility = View.VISIBLE
+                }
 
                 // get response
                 val result = String(responseBody)
