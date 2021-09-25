@@ -7,6 +7,15 @@
     android:background="@color/brown_secondary"
     tools:context=".HomeFragment">
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_format_quote_brown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/llQuote"
         android:visibility="invisible"
