@@ -21,5 +21,9 @@
         android:id="@+id/listQuotesFragment"
         android:name="com.ardnn.myquote.ListQuotesFragment"
         android:label="fragment_list_quotes"
-        tools:layout="@layout/fragment_list_quotes" />
+        tools:layout="@layout/fragment_list_quotes" >
+        <action
+            android:id="@+id/action_listQuotesFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

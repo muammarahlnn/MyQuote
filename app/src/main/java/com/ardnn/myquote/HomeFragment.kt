@@ -52,10 +52,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun getRandomQuote() {
-        // show progress bar and hide quote
+        // show progress bar, hide quote and disable btn refresh
         with (binding) {
             progressBar.visibility = View.VISIBLE
             llQuote.visibility = View.INVISIBLE
+            btnRefresh.isEnabled = false
         }
 
         // create client and fetch data from given url API
@@ -68,10 +69,11 @@ class HomeFragment : Fragment() {
                 headers: Array<out Header>,
                 responseBody: ByteArray
             ) {
-                // hide progress bar and show quote
+                // hide progress bar, show quote and enable btn refresh
                 with (binding) {
                     progressBar.visibility = View.INVISIBLE
                     llQuote.visibility = View.VISIBLE
+                    btnRefresh.isEnabled = true
                 }
 
                 // get response

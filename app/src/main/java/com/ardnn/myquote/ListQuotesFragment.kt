@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ardnn.myquote.databinding.FragmentListQuotesBinding
@@ -35,14 +36,20 @@ class ListQuotesFragment : Fragment() {
 
         // setup recyclerview
         val layoutManager = LinearLayoutManager(activity)
-        val itemDecoration = DividerItemDecoration(activity, layoutManager.orientation)
-        with (binding) {
-            rvQuotes.layoutManager = layoutManager
-            rvQuotes.addItemDecoration(itemDecoration)
-        }
+        binding.rvQuotes.layoutManager = layoutManager
 
         // load list of quotes
         getListQuotes()
+
+        // if button clicked
+        binding.btnRefresh.setOnClickListener {
+            getListQuotes()
+        }
+        binding.btnBack.setOnClickListener { view ->
+            view.findNavController().navigate(
+                R.id.action_listQuotesFragment_to_homeFragment
+            )
+        }
 
         return binding.root
     }
@@ -53,8 +60,12 @@ class ListQuotesFragment : Fragment() {
     }
 
     private fun getListQuotes() {
-        // show progress bar
-        binding.progressBar.visibility = View.VISIBLE
+        // show progress bar, hide recyclerview and disabel btn refresh
+        with (binding) {
+            progressBar.visibility = View.VISIBLE
+            rvQuotes.visibility = View.INVISIBLE
+            btnRefresh.isEnabled = false
+        }
 
         // create client object and fetch data from the given API url
         val client = AsyncHttpClient()
@@ -66,8 +77,12 @@ class ListQuotesFragment : Fragment() {
                 headers: Array<out Header>,
                 responseBody: ByteArray
             ) {
-                // hide progress bar
-                binding.progressBar.visibility = View.INVISIBLE
+                // hide progress bar, show recyclerview, and enable btn refresh
+                with (binding) {
+                    progressBar.visibility = View.INVISIBLE
+                    rvQuotes.visibility = View.VISIBLE
+                    btnRefresh.isEnabled = true
+                }
 
                 // get response
                 val result = String(responseBody)

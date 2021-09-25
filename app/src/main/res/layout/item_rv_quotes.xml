@@ -1,26 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="10dp"
     android:paddingHorizontal="16dp"
-    android:orientation="vertical">
+    android:paddingVertical="12dp"
+    tools:background="@color/brown_primary">
 
     <TextView
         android:id="@+id/tvQuote"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/white"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/quote" />
 
     <TextView
         android:id="@+id/tvAuthor"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/tvQuote"
+        app:layout_constraintStart_toStartOf="@+id/tvQuote"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuote"
         tools:text="@string/author" />
 
-</LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAuthor" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
